@@ -38,6 +38,11 @@ void Node<T>::setLeftChild(Node<T>* t){
 	leftChild = t;
 }
 
+template <typename T>
+void Node<T>::setBalance(int b){
+	balance = b;
+}
+
 
 template class Node<int>;
 

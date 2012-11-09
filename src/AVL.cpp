@@ -4,10 +4,12 @@
 //date:		Fall 2012
 
 #include <iostream>
+#include <algorithm>
 #include "AVL.h"
 
 using std::cout;
 using std::endl;
+using std::max;
 
 template <typename T>
 AVL<T>::AVL(){
@@ -64,6 +66,7 @@ void AVL<T>::remove(T v){
 template <typename T>
 void AVL<T>::print(){
 	traversalPrint(root);
+	cout << "balance of root is: " << getBalance(root) << endl;
 }
 
 template <typename T>
@@ -87,6 +90,23 @@ Node<T>* AVL<T>::findParent(T v, Node<T>* n){
 			n = n->getRightChild();
 		}
 		return temp;
+	}
+}
+
+template <typename T>
+int AVL<T>::getBalance(Node<T>* n){
+	int lh = getHeight(n->getLeftChild());
+	int rh = getHeight(n->getRightChild());
+	return rh - lh;
+}	
+
+template <typename T>
+int AVL<T>::getHeight(Node<T>* n){
+	if (n == 0){
+		return 0;
+	}
+	else {
+		return max(getHeight(n->getLeftChild()), getHeight(n->getRightChild())) +1;
 	}
 }
 

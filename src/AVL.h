@@ -17,6 +17,8 @@ class AVL {
 		Node<T>* findParent(T v, Node<T>* t);
 		void postOrderDelete(Node<T>* t);
 		void traversalPrint(Node<T>* rt);
+		int getBalance(Node<T>* n);
+		int getHeight(Node<T>* n);
 
 	public:
 		AVL<T>();

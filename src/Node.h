@@ -22,7 +22,7 @@ class Node {
 		Node<T>* getLeftChild();
 		void setRightChild(Node<T>* t);
 		void setLeftChild(Node<T>* t);
-
+		void setBalance(int b);
 };
 
 #endif
