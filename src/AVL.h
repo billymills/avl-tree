@@ -16,6 +16,7 @@ class AVL {
 		Node<T>* findNode(T v, Node<T>* t);
 		Node<T>* findParent(T v, Node<T>* t);
 		void postOrderDelete(Node<T>* t);
+		void traversalPrint(Node<T>* rt);
 
 	public:
 		AVL<T>();
