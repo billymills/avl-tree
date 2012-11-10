@@ -23,6 +23,7 @@ class Node {
 		void setRightChild(Node<T>* t);
 		void setLeftChild(Node<T>* t);
 		void setBalance(int b);
+		int checkBalance();
 };
 
 #endif

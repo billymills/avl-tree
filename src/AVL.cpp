@@ -31,14 +31,18 @@ void AVL<T>::insert(T v){
 	Node<T>* newNode = new Node<T>(v);
 	Node<T>* curr = root;
 	Node<T>* prev = 0;
+	Node<T>* cnode = root;
 
 	//insert root
 	if (curr == 0){
 		root = newNode;
 	}
+
 	//everthing else
 	else {
 		while (curr != 0){
+			//look for critical node on each move
+			cout << "balance is: " << curr->checkBalance() << endl;
 			if (v < curr->getValue()){
 				prev = curr;
 				curr = curr->getLeftChild();

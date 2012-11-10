@@ -43,6 +43,11 @@ void Node<T>::setBalance(int b){
 	balance = b;
 }
 
+template <typename T>
+int Node<T>::checkBalance(){
+	return balance;
+}
+
 
 template class Node<int>;
 
