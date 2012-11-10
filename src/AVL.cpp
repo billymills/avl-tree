@@ -110,4 +110,32 @@ int AVL<T>::getHeight(Node<T>* n){
 	}
 }
 
+template <typename T>
+Node<T>* AVL<T>::leftRotate(Node<T>* n){
+	Node<T>* tempRC = n->getRightChild();
+	cout << "tempRC is: " << tempRC->getValue() << endl;
+	Node<T>* parent = findParent(n->getValue(), root);
+	cout << "parent is: " << parent->getValue() << endl;
+	tempRC->setLeftChild(n);
+	cout << "tempRCs left child is: " << tempRC->getLeftChild()->getValue() << endl;
+	cout << "n value is: " << n->getValue() << endl;
+	if (parent->getValue() < n->getValue()){
+		cout << "in if" << endl;
+		parent->setRightChild(tempRC);
+		cout << "hello" << endl;	
+	}
+	else {
+		parent->setLeftChild(tempRC);
+	}
+	//tempRC->setLeftChild(n);
+	n->setRightChild(0);
+	
+}
+
+template <typename T>
+void AVL<T>::testRotate(){
+	leftRotate(root->getRightChild());
+	cout << "returned from rotate" << endl;
+}
+
 template class AVL<int>;

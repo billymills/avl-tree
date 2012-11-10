@@ -19,6 +19,7 @@ class AVL {
 		void traversalPrint(Node<T>* rt);
 		int getBalance(Node<T>* n);
 		int getHeight(Node<T>* n);
+		Node<T>* leftRotate(Node<T>* n);
 
 	public:
 		AVL<T>();
@@ -27,7 +28,7 @@ class AVL {
 		void insert(T v);
 		void remove(T v);
 		void print();
-
+		void testRotate();
 };
 
 #endif
