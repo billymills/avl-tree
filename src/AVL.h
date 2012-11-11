@@ -16,9 +16,10 @@ class AVL {
 		Node<T>* findNode(T v, Node<T>* t);
 		Node<T>* findParent(T v, Node<T>* t);
 		void postOrderDelete(Node<T>* t);
-		void traversalPrint(Node<T>* rt);
 		int getBalance(Node<T>* n);
 		int getHeight(Node<T>* n);
+		void postOrderHelper(Node<T>* n);
+		void inOrderHelper(Node<T>* n);
 		void leftRotate(Node<T>* n);
 
 	public:
@@ -27,8 +28,10 @@ class AVL {
 		bool find(T v);
 		void insert(T v);
 		void remove(T v);
-		void print();
+		//void print();
 		void testRotate();
+		void postOrderTraversal();
+		void inOrderTraversal();
 };
 
 #endif

@@ -91,17 +91,30 @@ void AVL<T>::remove(T v){
 }
 
 template <typename T>
-void AVL<T>::print(){
-	
-	traversalPrint(root);
+void AVL<T>::postOrderTraversal(){	
+	postOrderHelper(root);
 }
 
 template <typename T>
-void AVL<T>::traversalPrint(Node<T>* rt){
+void AVL<T>::inOrderTraversal(){
+	inOrderHelper(root);
+}
+
+template <typename T>
+void AVL<T>::postOrderHelper(Node<T>* rt){
 	if(rt != 0){
-		traversalPrint(rt->getLeftChild());
-		traversalPrint(rt->getRightChild());
+		postOrderHelper(rt->getLeftChild());
+		postOrderHelper(rt->getRightChild());
 		cout << rt->getValue() << endl;
+	}
+}
+
+template <typename T>
+void AVL<T>::inOrderHelper(Node<T>* rt){
+	if(rt != 0){
+		inOrderHelper(rt->getLeftChild());
+		cout << rt->getValue() << endl;
+		inOrderHelper(rt->getRightChild());
 	}
 }
 
@@ -141,13 +154,9 @@ template <typename T>
 //Node<T>* AVL<T>::leftRotate(Node<T>* n){
 void AVL<T>::leftRotate(Node<T>* n){
 	Node<T>* tempRC = n->getRightChild();
+	Node<T>* tempLC = tempRC->getLeftChild();
 	cout << "tempRC is: " << tempRC->getValue() << endl;
 	
-	//special condition if cnode is root
-	//if (root == n){
-		
-	//}
-
 	Node<T>* parent = findParent(n->getValue(), root);
 	cout << "parent is: " << parent->getValue() << endl;
 	tempRC->setLeftChild(n);
@@ -158,15 +167,15 @@ void AVL<T>::leftRotate(Node<T>* n){
 		cout << "past root pntr" << endl;
 	}
 	else {
-	if (parent->getValue() < n->getValue()){
-		parent->setRightChild(tempRC);
-	}
-	else {
-		parent->setLeftChild(tempRC);
-	}
+		if (parent->getValue() < n->getValue()){
+			parent->setRightChild(tempRC);
+		}
+		else {
+			parent->setLeftChild(tempRC);
+		}
 	}
 	
-	n->setRightChild(0);
+	n->setRightChild(tempLC);
 }
 
 template <typename T>
