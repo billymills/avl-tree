@@ -31,18 +31,21 @@ void AVL<T>::insert(T v){
 	Node<T>* newNode = new Node<T>(v);
 	Node<T>* curr = root;
 	Node<T>* prev = 0;
-	Node<T>* cnode = root;
+	Node<T>* cnode;
 
 	//insert root
 	if (curr == 0){
 		root = newNode;
+		cnode = root;
 	}
 
 	//everthing else
 	else {
 		while (curr != 0){
 			//look for critical node on each move
-			cout << "balance is: " << curr->checkBalance() << endl;
+			if (curr->checkBalance() == 1 || curr->checkBalance() == -1){
+				cnode = curr;
+			}
 			if (v < curr->getValue()){
 				prev = curr;
 				curr = curr->getLeftChild();
@@ -58,7 +61,10 @@ void AVL<T>::insert(T v){
 		else {
 			prev->setRightChild(newNode);
 		}
+	cnode->setBalance(getBalance(cnode));
+	cout << "balance of cnode is: " << cnode->checkBalance() << endl;
 	}
+	cout << "cnode balance is: " << cnode->checkBalance() << endl;
 }
 
 
@@ -70,7 +76,6 @@ void AVL<T>::remove(T v){
 template <typename T>
 void AVL<T>::print(){
 	traversalPrint(root);
-	cout << "balance of root is: " << getBalance(root) << endl;
 }
 
 template <typename T>
@@ -124,14 +129,11 @@ Node<T>* AVL<T>::leftRotate(Node<T>* n){
 	cout << "tempRCs left child is: " << tempRC->getLeftChild()->getValue() << endl;
 	cout << "n value is: " << n->getValue() << endl;
 	if (parent->getValue() < n->getValue()){
-		cout << "in if" << endl;
 		parent->setRightChild(tempRC);
-		cout << "hello" << endl;	
 	}
 	else {
 		parent->setLeftChild(tempRC);
 	}
-	//tempRC->setLeftChild(n);
 	n->setRightChild(0);
 	
 }
