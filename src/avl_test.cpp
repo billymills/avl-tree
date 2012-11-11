@@ -13,7 +13,7 @@ int main(){
 	newTree->insert(10);
 	newTree->insert(20);
 	newTree->insert(30);
-	newTree->insert(40);
+	//newTree->insert(40);
 	newTree->print();
 	
 }

@@ -56,22 +56,32 @@ void AVL<T>::insert(T v){
 				curr = curr->getRightChild();
 
 			}
-		}
+		}//end while
+
 		if(prev->getValue() > v){
 			prev->setLeftChild(newNode);
 		}
 		else {
 			prev->setRightChild(newNode);
 		}
-	//update all balances
-	cnode->setBalance(getBalance(cnode));
-	if (cnode->getRightChild() != 0){
-		cnode->getRightChild()->setBalance(getBalance(cnode->getRightChild()));
-	}
-	cout << "balance of cnode is: " << cnode->checkBalance() << endl;
-	cout << "balance of cnode right child: " << cnode->getRightChild()->checkBalance() << endl;
-	cout << "cnode is: " << cnode->getValue() << endl;
-	}
+	
+		//update all balances
+		cnode->setBalance(getBalance(cnode));
+		if (cnode->getRightChild() != 0){
+			cnode->getRightChild()->setBalance(getBalance(cnode->getRightChild()));
+		}
+		
+		cout << "balance of cnode is: " << cnode->checkBalance() << endl;
+		cout << "balance of cnode right child: " << cnode->getRightChild()->checkBalance() << endl;
+		cout << "cnode is: " << cnode->getValue() << endl; 
+		cout << "prev node is: " << prev->getValue() << endl;	
+		//check critical node if 2 left rotate
+		if (cnode->checkBalance() ==2){
+			cout << "we need to left rotate on critical node: " << cnode->getValue() << endl;
+			leftRotate(cnode);
+			cout << "back from leftRotate" << endl;
+		}
+	}//end outer else
 }
 
 
@@ -82,6 +92,7 @@ void AVL<T>::remove(T v){
 
 template <typename T>
 void AVL<T>::print(){
+	
 	traversalPrint(root);
 }
 
@@ -127,22 +138,35 @@ int AVL<T>::getHeight(Node<T>* n){
 }
 
 template <typename T>
-Node<T>* AVL<T>::leftRotate(Node<T>* n){
+//Node<T>* AVL<T>::leftRotate(Node<T>* n){
+void AVL<T>::leftRotate(Node<T>* n){
 	Node<T>* tempRC = n->getRightChild();
 	cout << "tempRC is: " << tempRC->getValue() << endl;
+	
+	//special condition if cnode is root
+	//if (root == n){
+		
+	//}
+
 	Node<T>* parent = findParent(n->getValue(), root);
 	cout << "parent is: " << parent->getValue() << endl;
 	tempRC->setLeftChild(n);
 	cout << "tempRCs left child is: " << tempRC->getLeftChild()->getValue() << endl;
 	cout << "n value is: " << n->getValue() << endl;
+	if (parent == n){
+		root = tempRC;
+		cout << "past root pntr" << endl;
+	}
+	else {
 	if (parent->getValue() < n->getValue()){
 		parent->setRightChild(tempRC);
 	}
 	else {
 		parent->setLeftChild(tempRC);
 	}
-	n->setRightChild(0);
+	}
 	
+	n->setRightChild(0);
 }
 
 template <typename T>
