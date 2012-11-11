@@ -11,6 +11,9 @@
 int main(){
 	AVL<int>* newTree = new AVL<int>();
 	newTree->insert(10);
+	newTree->insert(20);
+	newTree->insert(30);
+	newTree->insert(40);
 	newTree->print();
 	
 }

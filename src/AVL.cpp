@@ -30,21 +30,22 @@ template <typename T>
 void AVL<T>::insert(T v){
 	Node<T>* newNode = new Node<T>(v);
 	Node<T>* curr = root;
-	Node<T>* prev = 0;
-	Node<T>* cnode;
+	Node<T>* prev = root;
+	Node<T>* cnode = root;
 
 	//insert root
 	if (curr == 0){
 		root = newNode;
-		cnode = root;
+		//cnode = root;
 	}
 
 	//everthing else
 	else {
 		while (curr != 0){
 			//look for critical node on each move
-			if (curr->checkBalance() == 1 || curr->checkBalance() == -1){
-				cnode = curr;
+			if (prev != 0 && (prev->checkBalance() == 1 || prev->checkBalance() == -1)){
+				cout << "in cnode assignment" << endl;
+				cnode = prev;
 			}
 			if (v < curr->getValue()){
 				prev = curr;
@@ -53,6 +54,7 @@ void AVL<T>::insert(T v){
 			else if (v > curr->getValue()){
 				prev = curr;				
 				curr = curr->getRightChild();
+
 			}
 		}
 		if(prev->getValue() > v){
@@ -61,10 +63,15 @@ void AVL<T>::insert(T v){
 		else {
 			prev->setRightChild(newNode);
 		}
+	//update all balances
 	cnode->setBalance(getBalance(cnode));
-	cout << "balance of cnode is: " << cnode->checkBalance() << endl;
+	if (cnode->getRightChild() != 0){
+		cnode->getRightChild()->setBalance(getBalance(cnode->getRightChild()));
 	}
-	cout << "cnode balance is: " << cnode->checkBalance() << endl;
+	cout << "balance of cnode is: " << cnode->checkBalance() << endl;
+	cout << "balance of cnode right child: " << cnode->getRightChild()->checkBalance() << endl;
+	cout << "cnode is: " << cnode->getValue() << endl;
+	}
 }
 
 
