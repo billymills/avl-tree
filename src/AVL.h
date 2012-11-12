@@ -21,6 +21,7 @@ class AVL {
 		void postOrderHelper(Node<T>* n);
 		void inOrderHelper(Node<T>* n);
 		void leftRotate(Node<T>* n);
+		void rightRotate(Node<T>* n);
 
 	public:
 		AVL<T>();
