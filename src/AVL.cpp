@@ -135,16 +135,23 @@ void AVL<T>::inOrderHelper(Node<T>* rt){
 
 template <typename T>
 Node<T>* AVL<T>::findParent(T v, Node<T>* n){
+	//cout << "in find parent" << endl;
 	Node<T>* temp = n;
+
 	while (temp != 0){
-		if (temp->getRightChild()->getValue() == v || temp->getLeftChild()->getValue() == v){
+		//cout << "in while loop" << endl;
+		if ((temp->getRightChild() != 0 && temp->getRightChild()->getValue() == v) 
+			|| (temp->getLeftChild() != 0 && temp->getLeftChild()->getValue() == v)){
+			cout << "in if" << endl;
 			return temp;
 		}
+		cout << "past if" << endl;
 		if (v < temp->getValue()){
 			temp = temp->getLeftChild();
 		}
 		else {
 			temp = temp->getRightChild();
+			cout << "in else" << endl;
 		}
 	}
 	return temp;
@@ -174,17 +181,17 @@ void AVL<T>::leftRotate(Node<T>* n){
 	Node<T>* tempRC = n->getRightChild();
 	Node<T>* tempLC = tempRC->getLeftChild();
 	cout << "tempRC is: " << tempRC->getValue() << endl;
-	
-	Node<T>* parent = findParent(n->getValue(), root);
-	cout << "parent is: " << parent->getValue() << endl;
+	//cout << "parent is: " << parent->getValue() << endl;
 	tempRC->setLeftChild(n);
 	cout << "tempRCs left child is: " << tempRC->getLeftChild()->getValue() << endl;
 	cout << "n value is: " << n->getValue() << endl;
-	if (parent == n){
+	if (root == n){
 		root = tempRC;
 		//cout << "past root pntr" << endl;
 	}
 	else {
+		
+		Node<T>* parent = findParent(n->getValue(), root);
 		if (parent->getValue() < n->getValue()){
 			parent->setRightChild(tempRC);
 		}
