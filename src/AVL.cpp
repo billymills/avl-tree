@@ -44,7 +44,6 @@ void AVL<T>::insert(T v){
 		while (curr != 0){
 			//look for critical node on each move
 			if (prev != 0 && (prev->checkBalance() == 1 || prev->checkBalance() == -1)){
-				cout << "in cnode assignment" << endl;
 				cnode = prev;
 			}
 			if (v < curr->getValue()){
@@ -65,26 +64,37 @@ void AVL<T>::insert(T v){
 			prev->setRightChild(newNode);
 		}
 	
-		//update all balances
+		//check cnode balance
 		cnode->setBalance(getBalance(cnode));
 		if (cnode->getRightChild() != 0){
 			cnode->getRightChild()->setBalance(getBalance(cnode->getRightChild()));
 		}
+		if (cnode->getLeftChild() != 0){
+			cnode->getLeftChild()->setBalance(getBalance(cnode->getLeftChild()));
+		}
 		
-		cout << "balance of cnode is: " << cnode->checkBalance() << endl;
-		cout << "balance of cnode left child: " << cnode->getLeftChild()->checkBalance() << endl;
-		cout << "cnode is: " << cnode->getValue() << endl; 
-		cout << "prev node is: " << prev->getValue() << endl;	
+		//cout << "balance of cnode is: " << cnode->checkBalance() << endl;
+		//cout << "balance of cnode left child: " << cnode->getLeftChild()->checkBalance() << endl;
+		//cout << "cnode is: " << cnode->getValue() << endl; 
+		//cout << "prev node is: " << prev->getValue() << endl;	
 		//check critical node if 2 left rotate
 		if (cnode->checkBalance() == 2){
-			cout << "we need to left rotate on critical node: " << cnode->getValue() << endl;
+			if (cnode->getRightChild()->checkBalance() < 0){
+				cout << "in if for dbl" << endl;
+				rightRotate(cnode->getRightChild());
+				cout << "back from first rotation" << endl;
+			}
+			//cout << "we need to left rotate on critical node: " << cnode->getValue() << endl;
 			leftRotate(cnode);
-			cout << "back from leftRotate" << endl;
+			cout << "back from second Rotate" << endl;
 		}
 		else if (cnode->checkBalance() == -2){
-			cout << "we need to right rotate on critical node" << endl;
+			if (cnode->getLeftChild()->checkBalance() > 0){
+				leftRotate(cnode->getLeftChild());
+			}
+			//cout << "we need to right rotate on critical node" << endl;
 			rightRotate(cnode);
-			cout << "back from rightRotate" << endl;
+			//cout << "back from rightRotate" << endl;
 		}
 	}//end outer else
 }
@@ -125,17 +135,19 @@ void AVL<T>::inOrderHelper(Node<T>* rt){
 
 template <typename T>
 Node<T>* AVL<T>::findParent(T v, Node<T>* n){
-	Node<T>* temp = 0;
-	while ((n != 0) && (n->getValue() != 0)){
-		temp = n;
-		if (v < n->getValue()){
-			n = n->getLeftChild();
+	Node<T>* temp = n;
+	while (temp != 0){
+		if (temp->getRightChild()->getValue() == v || temp->getLeftChild()->getValue() == v){
+			return temp;
+		}
+		if (v < temp->getValue()){
+			temp = temp->getLeftChild();
 		}
 		else {
-			n = n->getRightChild();
+			temp = temp->getRightChild();
 		}
-		return temp;
 	}
+	return temp;
 }
 
 template <typename T>
@@ -158,6 +170,7 @@ int AVL<T>::getHeight(Node<T>* n){
 template <typename T>
 //Node<T>* AVL<T>::leftRotate(Node<T>* n){
 void AVL<T>::leftRotate(Node<T>* n){
+	cout << "in left rotate" << endl;
 	Node<T>* tempRC = n->getRightChild();
 	Node<T>* tempLC = tempRC->getLeftChild();
 	cout << "tempRC is: " << tempRC->getValue() << endl;
@@ -169,7 +182,7 @@ void AVL<T>::leftRotate(Node<T>* n){
 	cout << "n value is: " << n->getValue() << endl;
 	if (parent == n){
 		root = tempRC;
-		cout << "past root pntr" << endl;
+		//cout << "past root pntr" << endl;
 	}
 	else {
 		if (parent->getValue() < n->getValue()){
@@ -181,6 +194,13 @@ void AVL<T>::leftRotate(Node<T>* n){
 	}
 	
 	n->setRightChild(tempLC);
+	//update balances
+	n->setBalance(getBalance(n));
+	//cout << "after rotate cnode balance is: " << n->checkBalance() << endl;
+	tempRC->setBalance(getBalance(tempRC));
+	//cout << "after rotate tempRC bal is: " << tempRC->checkBalance() << endl;
+	//tempRC->getRightChild()->setBalance(getBalance(tempRC->getRightChild()));
+	//cout << "after rotate tempRC RC is: " << tempRC->getRightChild()->checkBalance() << endl;
 }
 
 template <typename T>
@@ -198,10 +218,10 @@ void AVL<T>::rightRotate(Node<T>* n){
 	cout << "n value is: " << n->getValue() << endl;
 	if (parent == n){
 		root = tempLC;
-		cout << "past root pntr" << endl;
+		//cout << "past root pntr" << endl;
 	}
 	else {
-		if (parent->getValue() < n->getValue()){
+		if (parent->getValue() > n->getValue()){
 			parent->setLeftChild(tempLC);
 		}
 		else {
@@ -210,6 +230,13 @@ void AVL<T>::rightRotate(Node<T>* n){
 	}
 	
 	n->setLeftChild(tempRC);
+	//update balances
+	n->setBalance(getBalance(n));
+	cout << "after rotate cnode balance is: " << n->checkBalance() << endl;
+	tempLC->setBalance(getBalance(tempLC));
+	cout << "after rotate tempLC bal is: " << tempLC->checkBalance() << endl;
+	//tempLC->getLeftChild()->setBalance(getBalance(tempLC->getLeftChild()));
+	//cout << "after rotate tempLC LC is: " << tempLC->getLeftChild()->checkBalance() << endl;
 	
 }
 

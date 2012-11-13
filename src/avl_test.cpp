@@ -10,10 +10,11 @@
 
 int main(){
 	AVL<int>* newTree = new AVL<int>();
-	newTree->insert(30);
 	newTree->insert(20);
 	newTree->insert(10);
-	//newTree->insert(40);
+	newTree->insert(30);
+	newTree->insert(40);
+	newTree->insert(35);
 	newTree->postOrderTraversal();
 	newTree->inOrderTraversal();
 	
