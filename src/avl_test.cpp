@@ -19,5 +19,5 @@ int main(){
 	newTree->insert(15);
 	newTree->postOrderTraversal();
 	newTree->inOrderTraversal();
-	
+	newTree->treePrint();	
 }

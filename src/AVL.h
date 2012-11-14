@@ -33,6 +33,7 @@ class AVL {
 		void testRotate();
 		void postOrderTraversal();
 		void inOrderTraversal();
+		void treePrint();
 };
 
 #endif

@@ -5,11 +5,13 @@
 
 #include <iostream>
 #include <algorithm>
+#include <vector>
 #include "AVL.h"
 
 using std::cout;
 using std::endl;
 using std::max;
+using std::vector;
 
 template <typename T>
 AVL<T>::AVL(){
@@ -95,6 +97,60 @@ void AVL<T>::insert(T v){
 template <typename T>
 void AVL<T>::remove(T v){
 
+}
+
+template <typename T>
+void AVL<T>::treePrint(){
+	bool isEmptyLevel = false;
+	int numLevels = 0;
+
+	vector<vector<Node<T>* > > levelVector;
+	vector<Node<T>* > currLevel(1, root);
+
+	if (currLevel[0] == 0){
+		isEmptyLevel = true;
+	}
+	else{
+		levelVector.push_back(currLevel);
+		numLevels++;
+	}
+
+	while (isEmptyLevel == false){
+		currLevel.resize(2*levelVector[numLevels-1].size());
+		for (unsigned int i = 0;i < levelVector[numLevels-1].size(); ++i){
+			if (levelVector[numLevels-1][i] != 0){
+				currLevel[2*i] = levelVector[numLevels-1][i]->getLeftChild();
+				currLevel[2*i+1] = levelVector[numLevels-1][i]->getRightChild();
+			}
+			else{
+				currLevel[2*i] = 0;
+				currLevel[2*i+1] = 0;
+			}
+		}
+		for (unsigned int i = 0;i < currLevel.size(); ++i){
+			if (currLevel[i] != 0){
+				isEmptyLevel = false;
+				break;
+			}
+		isEmptyLevel = true;
+		}
+		if (isEmptyLevel == false){
+			levelVector.push_back(currLevel);
+			numLevels++;
+		}
+	}
+	
+	for (unsigned int i = 0;i < levelVector.size();++i){
+		for (unsigned int j = 0;j < levelVector[i].size();++j){
+			if (levelVector[i][j] != 0){
+				cout << levelVector[i][j]->getValue() << " ";
+			}
+			else{
+				cout << "x ";
+			}
+		}
+		cout << endl;
+	}
 }
 
 template <typename T>
