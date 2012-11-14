@@ -73,10 +73,6 @@ void AVL<T>::insert(T v){
 			cnode->getLeftChild()->setBalance(getBalance(cnode->getLeftChild()));
 		}
 		
-		//cout << "balance of cnode is: " << cnode->checkBalance() << endl;
-		//cout << "balance of cnode left child: " << cnode->getLeftChild()->checkBalance() << endl;
-		//cout << "cnode is: " << cnode->getValue() << endl; 
-		//cout << "prev node is: " << prev->getValue() << endl;	
 		//check critical node if 2 left rotate
 		if (cnode->checkBalance() == 2){
 			if (cnode->getRightChild()->checkBalance() < 0){
@@ -84,17 +80,13 @@ void AVL<T>::insert(T v){
 				rightRotate(cnode->getRightChild());
 				cout << "back from first rotation" << endl;
 			}
-			//cout << "we need to left rotate on critical node: " << cnode->getValue() << endl;
 			leftRotate(cnode);
-			cout << "back from second Rotate" << endl;
 		}
 		else if (cnode->checkBalance() == -2){
 			if (cnode->getLeftChild()->checkBalance() > 0){
 				leftRotate(cnode->getLeftChild());
 			}
-			//cout << "we need to right rotate on critical node" << endl;
 			rightRotate(cnode);
-			//cout << "back from rightRotate" << endl;
 		}
 	}//end outer else
 }
@@ -135,23 +127,18 @@ void AVL<T>::inOrderHelper(Node<T>* rt){
 
 template <typename T>
 Node<T>* AVL<T>::findParent(T v, Node<T>* n){
-	//cout << "in find parent" << endl;
 	Node<T>* temp = n;
-
 	while (temp != 0){
 		//cout << "in while loop" << endl;
 		if ((temp->getRightChild() != 0 && temp->getRightChild()->getValue() == v) 
 			|| (temp->getLeftChild() != 0 && temp->getLeftChild()->getValue() == v)){
-			cout << "in if" << endl;
 			return temp;
 		}
-		cout << "past if" << endl;
 		if (v < temp->getValue()){
 			temp = temp->getLeftChild();
 		}
 		else {
 			temp = temp->getRightChild();
-			cout << "in else" << endl;
 		}
 	}
 	return temp;
@@ -177,20 +164,13 @@ int AVL<T>::getHeight(Node<T>* n){
 template <typename T>
 //Node<T>* AVL<T>::leftRotate(Node<T>* n){
 void AVL<T>::leftRotate(Node<T>* n){
-	cout << "in left rotate" << endl;
 	Node<T>* tempRC = n->getRightChild();
 	Node<T>* tempLC = tempRC->getLeftChild();
-	cout << "tempRC is: " << tempRC->getValue() << endl;
-	//cout << "parent is: " << parent->getValue() << endl;
 	tempRC->setLeftChild(n);
-	cout << "tempRCs left child is: " << tempRC->getLeftChild()->getValue() << endl;
-	cout << "n value is: " << n->getValue() << endl;
 	if (root == n){
 		root = tempRC;
-		//cout << "past root pntr" << endl;
 	}
-	else {
-		
+	else {	
 		Node<T>* parent = findParent(n->getValue(), root);
 		if (parent->getValue() < n->getValue()){
 			parent->setRightChild(tempRC);
@@ -203,31 +183,20 @@ void AVL<T>::leftRotate(Node<T>* n){
 	n->setRightChild(tempLC);
 	//update balances
 	n->setBalance(getBalance(n));
-	//cout << "after rotate cnode balance is: " << n->checkBalance() << endl;
 	tempRC->setBalance(getBalance(tempRC));
-	//cout << "after rotate tempRC bal is: " << tempRC->checkBalance() << endl;
 	//tempRC->getRightChild()->setBalance(getBalance(tempRC->getRightChild()));
-	//cout << "after rotate tempRC RC is: " << tempRC->getRightChild()->checkBalance() << endl;
 }
 
 template <typename T>
-//Node<T>* AVL<T>::leftRotate(Node<T>* n){
-void AVL<T>::rightRotate(Node<T>* n){
-	
+void AVL<T>::rightRotate(Node<T>* n){	
 	Node<T>* tempLC = n->getLeftChild();
 	Node<T>* tempRC = tempLC->getRightChild();
-	cout << "tempLC is: " << tempLC->getValue() << endl;
-	
-	Node<T>* parent = findParent(n->getValue(), root);
-	cout << "parent is: " << parent->getValue() << endl;
 	tempLC->setRightChild(n);
-	cout << "tempLCs right child is: " << tempLC->getRightChild()->getValue() << endl;
-	cout << "n value is: " << n->getValue() << endl;
-	if (parent == n){
+	if (root == n){
 		root = tempLC;
-		//cout << "past root pntr" << endl;
 	}
 	else {
+		Node<T>* parent = findParent(n->getValue(), root);
 		if (parent->getValue() > n->getValue()){
 			parent->setLeftChild(tempLC);
 		}
@@ -239,12 +208,8 @@ void AVL<T>::rightRotate(Node<T>* n){
 	n->setLeftChild(tempRC);
 	//update balances
 	n->setBalance(getBalance(n));
-	cout << "after rotate cnode balance is: " << n->checkBalance() << endl;
 	tempLC->setBalance(getBalance(tempLC));
-	cout << "after rotate tempLC bal is: " << tempLC->checkBalance() << endl;
 	//tempLC->getLeftChild()->setBalance(getBalance(tempLC->getLeftChild()));
-	//cout << "after rotate tempLC LC is: " << tempLC->getLeftChild()->checkBalance() << endl;
-	
 }
 
 template <typename T>
