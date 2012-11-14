@@ -12,12 +12,15 @@ using std::endl;
 
 int main(){
 	AVL<int>* newTree = new AVL<int>();
-	newTree->insert(40);
-	newTree->insert(30);
-	newTree->insert(20);
-	newTree->insert(10);
+	newTree->insert(3);
+	newTree->insert(2);
+	newTree->insert(1);
+	newTree->insert(4);
+	newTree->insert(5);
+	newTree->insert(6);
+	newTree->insert(7);
+	newTree->insert(16);
 	newTree->insert(15);
-	newTree->postOrderTraversal();
-	newTree->inOrderTraversal();
+	newTree->insert(14);
 	newTree->treePrint();	
 }

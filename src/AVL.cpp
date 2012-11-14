@@ -58,7 +58,7 @@ void AVL<T>::insert(T v){
 
 			}
 		}//end while
-
+		
 		if(prev->getValue() > v){
 			prev->setLeftChild(newNode);
 		}
@@ -240,7 +240,7 @@ void AVL<T>::leftRotate(Node<T>* n){
 	//update balances
 	n->setBalance(getBalance(n));
 	tempRC->setBalance(getBalance(tempRC));
-	//tempRC->getRightChild()->setBalance(getBalance(tempRC->getRightChild()));
+	tempRC->getRightChild()->setBalance(getBalance(tempRC->getRightChild()));
 }
 
 template <typename T>
@@ -265,7 +265,7 @@ void AVL<T>::rightRotate(Node<T>* n){
 	//update balances
 	n->setBalance(getBalance(n));
 	tempLC->setBalance(getBalance(tempLC));
-	//tempLC->getLeftChild()->setBalance(getBalance(tempLC->getLeftChild()));
+	tempLC->getLeftChild()->setBalance(getBalance(tempLC->getLeftChild()));
 }
 
 template <typename T>
