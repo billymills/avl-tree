@@ -88,9 +88,7 @@ void AVL<T>::insert(T v){
 		//check critical node if 2 left rotate
 		if (cnode->checkBalance() == 2){
 			if (cnode->getRightChild()->checkBalance() < 0){
-				cout << "in if for dbl" << endl;
 				rightRotate(cnode->getRightChild());
-				cout << "back from first rotation" << endl;
 			}
 			leftRotate(cnode);
 		}
@@ -136,14 +134,15 @@ void AVL<T>::remove(T v){
 				iop = iop->getRightChild();
 				nodes.push_back(iop);
 			}
-			iop->setRightChild(curr->getRightChild());
-			//root = curr->getLeftChild();
-			curr->getLeftChild()->setRightChild(0);
 			Node<T>* curr2 = iop;
 			while (curr2->getLeftChild() !=0){
 				curr2 = curr2->getLeftChild();
 			}
-			curr2->setLeftChild(curr->getLeftChild());
+			iop->setRightChild(curr->getRightChild());
+			if (curr->getLeftChild() != iop){
+				curr2->setLeftChild(curr->getLeftChild());
+				curr->getLeftChild()->setRightChild(0);
+			}
 			root = iop;
 		}
 		for (int i = 0;i < nodes.size();++i){
@@ -203,18 +202,46 @@ void AVL<T>::remove(T v){
 				parent->setLeftChild(curr->getRightChild());
 			}
 		}
+
+		//case 3 two children
+		else {
+			Node<T>* iop = curr->getLeftChild();
+			nodes.push_back(iop);
+			while(iop->getRightChild() != 0){
+				iop = iop->getRightChild();
+				nodes.push_back(iop);
+			}
+			iop->setRightChild(curr->getRightChild());
+			Node<T>* curr2 = iop;
+			while (curr2->getLeftChild() != 0){
+				curr2 = curr2->getLeftChild();
+			}
+			if (curr->getLeftChild() != iop){
+				curr2->setLeftChild(curr->getLeftChild());
+				curr->getLeftChild()->setRightChild(0);
+			}
+			if (parent->getLeftChild() == curr){
+				parent->setLeftChild(iop);
+			}
+			else {
+				parent->setRightChild(iop);
+			}
+			
+		for (int i = 0;i < nodes.size();++i){
+			cout << nodes[i]->getValue() << endl;
+		}
+		}
+		
 		delete curr;
+
 	}//end else when removed node is not root
 		//node is deleted now update and check balance of stored nodes
 		for (int i = nodes.size()-1;i >= 0; --i){
 			nodes.back()->setBalance(getBalance(nodes.back()));
 			int currBal = nodes.back()->checkBalance();
-			cout << "popped balance is: " << nodes.back()->checkBalance() << endl;
 			if (currBal == 2){
 				if (nodes.back()->getRightChild()->checkBalance() < 0){
-					cout << "in if for dbl" << endl;
 					rightRotate(nodes.back()->getRightChild());
-					cout << "back from first rotation" << endl;
 				}
 				leftRotate(nodes.back());
 			}
@@ -332,9 +359,26 @@ Node<T>* AVL<T>::findParent(T v, Node<T>* n){
 
 template <typename T>
 int AVL<T>::getBalance(Node<T>* n){
+/*
+	int rh = 0;
+	int lh = 0;
+	if (n->getLeftChild() == 0){
+		lh = 0;
+	}
+	else {
+		lh = getHeight(n->getLeftChild());
+	}
+	if (n->getRightChild() == 0){
+		rh = 0;
+	}
+	else {
+		rh = getHeight(n->getRightChild());
+	}
+	return rh - lh;
+*/
 	int lh = getHeight(n->getLeftChild());
 	int rh = getHeight(n->getRightChild());
-	return rh - lh;
+	return rh-lh;	
 }	
 
 template <typename T>
