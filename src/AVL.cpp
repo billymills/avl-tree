@@ -137,7 +137,14 @@ void AVL<T>::remove(T v){
 				nodes.push_back(iop);
 			}
 			iop->setRightChild(curr->getRightChild());
-			root = curr->getLeftChild();
+			//root = curr->getLeftChild();
+			curr->getLeftChild()->setRightChild(0);
+			Node<T>* curr2 = iop;
+			while (curr2->getLeftChild() !=0){
+				curr2 = curr2->getLeftChild();
+			}
+			curr2->setLeftChild(curr->getLeftChild());
+			root = iop;
 		}
 		for (int i = 0;i < nodes.size();++i){
 			cout << nodes[i]->getValue() << endl;
