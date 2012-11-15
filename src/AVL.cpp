@@ -116,6 +116,7 @@ void AVL<T>::remove(T v){
 		if(curr->getLeftChild() == 0 && curr->getRightChild() == 0){
 			root = 0;
 		}
+
 		//case 2 there is one child
 		if(curr->getLeftChild() !=0 && curr->getRightChild() == 0){
 			root = curr->getLeftChild();
@@ -124,6 +125,17 @@ void AVL<T>::remove(T v){
 		else{
 			root = curr->getRightChild();
 		}
+
+		//case 3 there are two children
+		if(curr->getLeftChild() != 0 && curr->getRightChild() != 0){
+			Node<T>* iop = curr->getLeftChild();
+			while(iop->getRightChild() != 0){
+				iop = iop->getRightChild();
+			}
+			iop->setRightChild(curr->getRightChild());
+			root = curr->getLeftChild();
+		}
+		delete curr;
 	}
 }
 
