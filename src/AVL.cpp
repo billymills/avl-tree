@@ -108,6 +108,7 @@ template <typename T>
 void AVL<T>::remove(T v){
 	assert (root != 0);
 	Node<T>* curr = root;
+	vector<Node<T>* > nodes;
 
 	//handle root
 	if(curr->getValue() == v){
@@ -127,13 +128,19 @@ void AVL<T>::remove(T v){
 		}
 
 		//case 3 there are two children
+		//now need to store nodes along iop path
 		if(curr->getLeftChild() != 0 && curr->getRightChild() != 0){
 			Node<T>* iop = curr->getLeftChild();
+			nodes.push_back(iop);
 			while(iop->getRightChild() != 0){
 				iop = iop->getRightChild();
+				nodes.push_back(iop);
 			}
 			iop->setRightChild(curr->getRightChild());
 			root = curr->getLeftChild();
+		}
+		for (int i = 0;i < nodes.size();++i){
+			cout << nodes[i]->getValue() << endl;
 		}
 		delete curr;
 	}
