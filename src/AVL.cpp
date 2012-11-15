@@ -150,7 +150,7 @@ void AVL<T>::remove(T v){
 			cout << nodes[i]->getValue() << endl;
 		}
 		delete curr;
-	}
+	}//end root if
 
 	//when node to be removed is not root
 
@@ -168,6 +168,11 @@ void AVL<T>::remove(T v){
 		if (curr == 0){
 			cout << "value not in tree" << endl;
 		}
+
+		for (int i = 0;i < nodes.size();++i){
+			cout << nodes[i]->getValue() << endl;
+		}
+
 		Node<T>* parent = findParent(v, root);
 		//now look at three cases
 		//case 1 there are no children
@@ -178,9 +183,28 @@ void AVL<T>::remove(T v){
 			else {
 				parent->setLeftChild(0);
 			}
-			delete curr;
+			//delete curr;
 		}
-	}
+		//case 2 ther is one child
+		else if (curr->getLeftChild() != 0 && curr->getRightChild() == 0){
+			if(parent->getRightChild() == curr){
+				parent->setRightChild(curr->getLeftChild());
+			}
+			else {
+				parent->setLeftChild(curr->getLeftChild());
+			}
+			//delete curr;
+		}
+		else if (curr->getLeftChild() == 0 && curr->getRightChild() != 0){
+			if (parent->getRightChild() == curr){
+				parent->setRightChild(curr->getRightChild());
+			}
+			else {
+				parent->setLeftChild(curr->getRightChild());
+			}
+		}
+		delete curr;
+	}//end else when removed node is not root
 		//node is deleted now update and check balance of stored nodes
 		for (int i = nodes.size()-1;i >= 0; --i){
 			nodes.back()->setBalance(getBalance(nodes.back()));
