@@ -143,6 +143,28 @@ void AVL<T>::remove(T v){
 			cout << nodes[i]->getValue() << endl;
 		}
 		delete curr;
+
+		//node is deleted now update and check balance of stored nodes
+		for (int i = nodes.size()-1;i >= 0; --i){
+			nodes.back()->setBalance(getBalance(nodes.back()));
+			int currBal = nodes.back()->checkBalance();
+			cout << "popped balance is: " << nodes.back()->checkBalance() << endl;
+			if (currBal == 2){
+				if (nodes.back()->getRightChild()->checkBalance() < 0){
+					cout << "in if for dbl" << endl;
+					rightRotate(nodes.back()->getRightChild());
+					cout << "back from first rotation" << endl;
+				}
+				leftRotate(nodes.back());
+			}
+			else if (currBal == -2){
+				if (nodes.back()->getLeftChild()->checkBalance() > 0){
+					leftRotate(nodes.back()->getLeftChild());
+				}
+				rightRotate(nodes.back());
+			}
+			nodes.pop_back(); //pop last item
+		}
 	}
 }
 
@@ -287,11 +309,14 @@ void AVL<T>::leftRotate(Node<T>* n){
 	//update balances
 	n->setBalance(getBalance(n));
 	tempRC->setBalance(getBalance(tempRC));
-	tempRC->getRightChild()->setBalance(getBalance(tempRC->getRightChild()));
+	if (tempRC->getRightChild() != 0){
+		tempRC->getRightChild()->setBalance(getBalance(tempRC->getRightChild()));
+	}
 }
 
 template <typename T>
-void AVL<T>::rightRotate(Node<T>* n){	
+void AVL<T>::rightRotate(Node<T>* n){
+	cout << "in right rotate" << endl;	
 	Node<T>* tempLC = n->getLeftChild();
 	Node<T>* tempRC = tempLC->getRightChild();
 	tempLC->setRightChild(n);
@@ -312,7 +337,9 @@ void AVL<T>::rightRotate(Node<T>* n){
 	//update balances
 	n->setBalance(getBalance(n));
 	tempLC->setBalance(getBalance(tempLC));
-	tempLC->getLeftChild()->setBalance(getBalance(tempLC->getLeftChild()));
+	if (tempLC->getLeftChild() != 0){
+		tempLC->getLeftChild()->setBalance(getBalance(tempLC->getLeftChild()));
+	}
 }
 
 template <typename T>
