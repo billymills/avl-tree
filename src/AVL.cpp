@@ -20,7 +20,16 @@ AVL<T>::AVL(){
 
 template <typename T>
 AVL<T>::~AVL(){
+	postOrderDelete(root);
+}
 
+template <typename T>
+void AVL<T>::postOrderDelete(Node<T>* n){
+	if (n != 0){
+		postOrderDelete(n->getLeftChild());
+		postOrderDelete(n->getRightChild());
+		delete n;
+	}
 }
 
 template <typename T>

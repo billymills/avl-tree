@@ -22,5 +22,6 @@ int main(){
 	newTree->insert(16);
 	newTree->insert(15);
 	newTree->insert(14);
-	newTree->treePrint();	
+	newTree->treePrint();
+	delete newTree;	
 }
