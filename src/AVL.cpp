@@ -6,6 +6,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <assert.h>
 #include "AVL.h"
 
 using std::cout;
@@ -105,7 +106,25 @@ void AVL<T>::insert(T v){
 
 template <typename T>
 void AVL<T>::remove(T v){
+	assert (root != 0);
+	Node<T>* curr = root;
 
+	//handle root
+	if(curr->getValue() == v){
+		//case 1 there are no children
+		//no need to store anything
+		if(curr->getLeftChild() == 0 && curr->getRightChild() == 0){
+			root = 0;
+		}
+		//case 2 there is one child
+		if(curr->getLeftChild() !=0 && curr->getRightChild() == 0){
+			root = curr->getLeftChild();
+		}
+		//else there is a right child but no left child
+		else{
+			root = curr->getRightChild();
+		}
+	}
 }
 
 template <typename T>
