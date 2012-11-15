@@ -150,7 +150,37 @@ void AVL<T>::remove(T v){
 			cout << nodes[i]->getValue() << endl;
 		}
 		delete curr;
+	}
 
+	//when node to be removed is not root
+
+	else {
+		//find node
+		while (curr->getValue() != v && curr !=0){
+			nodes.push_back(curr);
+			if (curr->getValue() < v){
+				curr = curr->getRightChild();
+			}
+			else {
+				curr = curr->getLeftChild();
+			}
+		}
+		if (curr == 0){
+			cout << "value not in tree" << endl;
+		}
+		Node<T>* parent = findParent(v, root);
+		//now look at three cases
+		//case 1 there are no children
+		if (curr->getLeftChild() == 0 && curr->getRightChild() == 0){
+			if(parent->getRightChild() == curr){
+				parent->setRightChild(0);
+			}
+			else {
+				parent->setLeftChild(0);
+			}
+			delete curr;
+		}
+	}
 		//node is deleted now update and check balance of stored nodes
 		for (int i = nodes.size()-1;i >= 0; --i){
 			nodes.back()->setBalance(getBalance(nodes.back()));
@@ -172,7 +202,7 @@ void AVL<T>::remove(T v){
 			}
 			nodes.pop_back(); //pop last item
 		}
-	}
+	
 }
 
 template <typename T>
