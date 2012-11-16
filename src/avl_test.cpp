@@ -12,14 +12,16 @@ using std::endl;
 
 int main(){
 	AVL<int>* newTree = new AVL<int>();
-	newTree->insert(10);
-	newTree->insert(5);
-	newTree->insert(20);
-	newTree->insert(3);
-	newTree->insert(7);
-	newTree->insert(30);
-	newTree->treePrint();
-	newTree->remove(10);
+	int test [9] = {9,8,7,6,5,4,3,2,1};
+	for (int i = 0;i < 9;++i){
+		newTree->insert(test[i]);
+	}
+	cout << "postOrder print" << endl;
+	newTree->postOrderTraversal();
+	cout << "inOrder print" << endl;
+	newTree->inOrderTraversal();
+	cout << "tree print" << endl;
 	newTree->treePrint();
 	delete newTree;	
+	
 }
