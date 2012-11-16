@@ -44,17 +44,19 @@ void AVL<T>::insert(T v){
 	Node<T>* curr = root;
 	Node<T>* prev = root;
 	Node<T>* cnode = root;
-
+	vector<Node<T>* > nodeHolder;
+	
 	//insert root
 	if (curr == 0){
 		root = newNode;
 		return;
-		//cnode = root;
 	}
 
-	//everthing else
+	//insert everthing else
 	else {
 		while (curr != 0){
+			nodeHolder.push_back(curr);
+
 			//look for critical node on each move
 			if (prev != 0 && (prev->checkBalance() == 1 || prev->checkBalance() == -1)){
 				cnode = prev;
@@ -70,25 +72,17 @@ void AVL<T>::insert(T v){
 			}
 		}//end while
 		
+		//insert node
 		if(prev->getValue() > v){
 			prev->setLeftChild(newNode);
 		}
 		else {
 			prev->setRightChild(newNode);
 		}
-	
-		//check cnode balance
-		cnode->setBalance(getBalance(cnode));
-		prev->setBalance(getBalance(prev));
-		if (cnode->getRightChild() != 0){
-			cnode->getRightChild()->setBalance(getBalance(cnode->getRightChild()));
+
+		for(int i = 0;i<nodeHolder.size();++i){
+			nodeHolder[i]->setBalance(getBalance(nodeHolder[i]));
 		}
-		if (cnode->getLeftChild() != 0){
-			cnode->getLeftChild()->setBalance(getBalance(cnode->getLeftChild()));
-		}
-		
-		cout << "cnode is: " << cnode->getValue() << endl;
-		cout << "cnode bal is: " << cnode->checkBalance() << endl;
 		
 		//check critical node if 2 left rotate
 		if (cnode->checkBalance() == 2){
@@ -150,14 +144,11 @@ void AVL<T>::remove(T v){
 			}
 			root = iop;
 		}
-		for (int i = 0;i < nodes.size();++i){
-			cout << nodes[i]->getValue() << endl;
-		}
 		delete curr;
+
 	}//end root if
 
 	//when node to be removed is not root
-
 	else {
 		//find node
 		while (curr->getValue() != v && curr !=0){
@@ -173,10 +164,6 @@ void AVL<T>::remove(T v){
 			cout << "value not in tree" << endl;
 		}
 
-		for (int i = 0;i < nodes.size();++i){
-			cout << nodes[i]->getValue() << endl;
-		}
-
 		Node<T>* parent = findParent(v, root);
 		//now look at three cases
 		//case 1 there are no children
@@ -187,7 +174,6 @@ void AVL<T>::remove(T v){
 			else {
 				parent->setLeftChild(0);
 			}
-			//delete curr;
 		}
 		//case 2 ther is one child
 		else if (curr->getLeftChild() != 0 && curr->getRightChild() == 0){
@@ -197,7 +183,6 @@ void AVL<T>::remove(T v){
 			else {
 				parent->setLeftChild(curr->getLeftChild());
 			}
-			//delete curr;
 		}
 		else if (curr->getLeftChild() == 0 && curr->getRightChild() != 0){
 			if (parent->getRightChild() == curr){
@@ -230,16 +215,12 @@ void AVL<T>::remove(T v){
 			}
 			else {
 				parent->setRightChild(iop);
-			}
-			
-		for (int i = 0;i < nodes.size();++i){
-			cout << nodes[i]->getValue() << endl;
+			}			
 		}
-		}
-		
 		delete curr;
 
 	}//end else when removed node is not root
+		
 		//node is deleted now update and check balance of stored nodes
 		for (int i = nodes.size()-1;i >= 0; --i){
 			nodes.back()->setBalance(getBalance(nodes.back()));
@@ -258,7 +239,6 @@ void AVL<T>::remove(T v){
 			}
 			nodes.pop_back(); //pop last item
 		}
-	
 }
 
 template <typename T>
@@ -363,23 +343,6 @@ Node<T>* AVL<T>::findParent(T v, Node<T>* n){
 
 template <typename T>
 int AVL<T>::getBalance(Node<T>* n){
-/*
-	int rh = 0;
-	int lh = 0;
-	if (n->getLeftChild() == 0){
-		lh = 0;
-	}
-	else {
-		lh = getHeight(n->getLeftChild());
-	}
-	if (n->getRightChild() == 0){
-		rh = 0;
-	}
-	else {
-		rh = getHeight(n->getRightChild());
-	}
-	return rh - lh;
-*/
 	int lh = getHeight(n->getLeftChild());
 	int rh = getHeight(n->getRightChild());
 	return rh-lh;	
