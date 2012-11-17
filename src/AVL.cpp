@@ -55,8 +55,10 @@ void AVL<T>::insert(T v){
 	//insert everthing else
 	else {
 		while (curr != 0){
+			if (curr->getValue() == v){
+				return;
+			}
 			nodeHolder.push_back(curr);
-
 			//look for critical node on each move
 			if (prev != 0 && (prev->checkBalance() == 1 || prev->checkBalance() == -1)){
 				cnode = prev;
