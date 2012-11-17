@@ -1,0 +1,11 @@
+c++ AVL Tree Implementation
+
+The following methods are supported in the public API:
+
+	insert				//insert(int)
+	remove				//remove(int)
+	postOrderTraversal	//no params prints a post order traversal
+	inOrderTraversal	//no params prints an in order traversal
+	treePrint			//no params prints a left justified tree
+
+using 'make' in main directory creates executable 'atest' in /build 

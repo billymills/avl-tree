@@ -416,9 +416,5 @@ void AVL<T>::rightRotate(Node<T>* n){
 	}
 }
 
-template <typename T>
-void AVL<T>::testRotate(){
-	leftRotate(root->getRightChild());
-}
 
 template class AVL<int>;

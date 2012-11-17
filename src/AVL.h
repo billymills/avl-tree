@@ -29,10 +29,8 @@ class AVL {
 		bool find(T v);
 		void insert(T v);
 		void remove(T v);
-		//void print();
-		void testRotate();
-		void postOrderTraversal();
 		void inOrderTraversal();
+		void postOrderTraversal();
 		void treePrint();
 };
 
