@@ -161,9 +161,10 @@ void AVL<T>::remove(T v){
 			else {
 				curr = curr->getLeftChild();
 			}
-		}
-		if (curr == 0){
-			cout << "value not in tree" << endl;
+			if (curr == 0){
+				cout << "value not in tree" << endl;
+				return;
+			}
 		}
 
 		Node<T>* parent = findParent(v, root);
