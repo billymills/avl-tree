@@ -54,13 +54,16 @@ void AVL<T>::insert(T v){
 
 	//insert everthing else
 	else {
+
+		//find place in tree
 		while (curr != 0){
+			//check if value is already in tree
 			if (curr->getValue() == v){
 				return;
 			}
 			nodeHolder.push_back(curr);
 			//look for critical node on each move
-			if (prev != 0 && (prev->checkBalance() == 1 || prev->checkBalance() == -1)){
+			if (prev != 0 && (prev->checkBalance() > 0 || prev->checkBalance() < 0)){
 				cnode = prev;
 			}
 			if (v < curr->getValue()){
@@ -84,6 +87,9 @@ void AVL<T>::insert(T v){
 
 		for(int i = 0;i<nodeHolder.size();++i){
 			nodeHolder[i]->setBalance(getBalance(nodeHolder[i]));
+		}
+		if (cnode->getRightChild() != 0){
+			cnode->getRightChild()->setBalance(getBalance(cnode->getRightChild()));
 		}
 		
 		//check critical node if 2 left rotate
@@ -147,8 +153,7 @@ void AVL<T>::remove(T v){
 			root = iop;
 		}
 		delete curr;
-
-	}//end root if
+	}//end handle root if
 
 	//when node to be removed is not root
 	else {
@@ -162,13 +167,14 @@ void AVL<T>::remove(T v){
 				curr = curr->getLeftChild();
 			}
 			if (curr == 0){
-				cout << "value not in tree" << endl;
+				cout << "value: " << v << " not in tree" << endl;
 				return;
 			}
 		}
 
 		Node<T>* parent = findParent(v, root);
 		//now look at three cases
+		
 		//case 1 there are no children
 		if (curr->getLeftChild() == 0 && curr->getRightChild() == 0){
 			if(parent->getRightChild() == curr){
@@ -178,6 +184,7 @@ void AVL<T>::remove(T v){
 				parent->setLeftChild(0);
 			}
 		}
+		
 		//case 2 ther is one child
 		else if (curr->getLeftChild() != 0 && curr->getRightChild() == 0){
 			if(parent->getRightChild() == curr){
@@ -221,7 +228,6 @@ void AVL<T>::remove(T v){
 			}			
 		}
 		delete curr;
-
 	}//end else when removed node is not root
 		
 		//node is deleted now update and check balance of stored nodes
@@ -381,6 +387,7 @@ void AVL<T>::leftRotate(Node<T>* n){
 	}
 	
 	n->setRightChild(tempLC);
+	
 	//update balances
 	n->setBalance(getBalance(n));
 	tempRC->setBalance(getBalance(tempRC));
@@ -408,6 +415,7 @@ void AVL<T>::rightRotate(Node<T>* n){
 	}
 	
 	n->setLeftChild(tempRC);
+	
 	//update balances
 	n->setBalance(getBalance(n));
 	tempLC->setBalance(getBalance(tempLC));
