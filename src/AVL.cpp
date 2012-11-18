@@ -252,6 +252,7 @@ void AVL<T>::remove(T v){
 
 template <typename T>
 void AVL<T>::treePrint(){
+	assert(root != 0);
 	bool isEmptyLevel = false;
 	int numLevels = 0;
 
@@ -368,7 +369,6 @@ int AVL<T>::getHeight(Node<T>* n){
 }
 
 template <typename T>
-//Node<T>* AVL<T>::leftRotate(Node<T>* n){
 void AVL<T>::leftRotate(Node<T>* n){
 	Node<T>* tempRC = n->getRightChild();
 	Node<T>* tempLC = tempRC->getLeftChild();
